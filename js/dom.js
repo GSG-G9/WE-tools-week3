@@ -14,21 +14,21 @@ cityInput.addEventListener("input", (e) => {
 });
 
 addNewWidgetBtn.addEventListener("click", (e) => {
-  window.scrollTo(0, 0);
-  searchInputBoxModal.classList.add("block");
-  searchInputBoxModal.classList.add("fade-in");
-  searchInputBoxModal.classList.remove("fade-out");
-  setTimeout(() => {
-    searchInputBoxModal.classList.remove("fade-in");
-  }, 350);
+	window.scrollTo(0, 0);
+	searchInputBoxModal.classList.add("block");
+	searchInputBoxModal.classList.add("fade-in");
+	searchInputBoxModal.classList.remove("fade-out");
+	setTimeout(() => {
+		searchInputBoxModal.classList.remove("fade-in");
+	}, 350);
 });
 
 closeSearchBoxBtn.addEventListener("click", (e) => {
-  searchInputBoxModal.classList.add("fade-out");
-  setTimeout(() => {
-    searchInputBoxModal.classList.remove("block");
-    searchInputBoxModal.classList.remove("fade-out");
-  }, 350);
+	searchInputBoxModal.classList.add("fade-out");
+	setTimeout(() => {
+		searchInputBoxModal.classList.remove("block");
+		searchInputBoxModal.classList.remove("fade-out");
+	}, 350);
 });
 
 const forTestArray = [
@@ -334,5 +334,5 @@ const renderWidgets = (array) => {
 };
 
 document.addEventListener("DOMContentLoaded", (e) => {
-  renderWidgets(forTestArray);
+	renderWidgets(localStorageModule.get("appData"));
 });
