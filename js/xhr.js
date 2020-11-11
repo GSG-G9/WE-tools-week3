@@ -14,6 +14,8 @@ const testArr_0 = [
 			long: 34,
 			lat: 31,
 		},
+		currencySymbol: "ILS",
+		currencyValue: 1,
 		dayName: "THR",
 		todayTemp: 25,
 		weather4Days: [
@@ -28,6 +30,8 @@ const testArr_0 = [
 			long: 20,
 			lat: 11,
 		},
+		currencySymbol: "USD",
+		currencyValue: 1,
 		dayName: "THR",
 		todayTemp: 25,
 		weather4Days: [
@@ -44,6 +48,8 @@ const testArr_0 = [
 		},
 		dayName: "THR",
 		todayTemp: 25,
+		currencySymbol: "EUR",
+		currencyValue: 1,
 		weather4Days: [
 			{ dayName: "FR", todayTemp: 20 },
 			{ dayName: "SAT", todayTemp: 15 },
@@ -112,6 +118,9 @@ const errorHandle = (error) => {
 
 const weatherApiUrl = (lat, long) =>
 	`http://api.weatherapi.com/v1/forecast.json?key=${config.weatherApiKey}&q=${lat},${long}&days=3`;
+const currencyExchangeApi = (baseCurrency) =>
+	`https://api.exchangeratesapi.io/latest?base=ILS&symbols=${baseCurrency}`;
+
 let query = () =>
 	localStorageModule.get("appData").forEach((obj) => {
 		requestXhr(
@@ -119,7 +128,21 @@ let query = () =>
 			(req) => setWeatherDataToLocalStorage(req, obj.id),
 			errorHandle
 		);
+		requestXhr(
+			currencyExchangeApi(obj.currencySymbol),
+			(req) => setCurrencyDataToLocalStorage(req, obj.id),
+			errorHandle
+		);
 	});
+
+const setCurrencyDataToLocalStorage = (req, id) => {
+	const newObj = {
+		id,
+		currencyValue: Object.values(req.rates)[0],
+	};
+	const updatedArr = editObject(newObj, localStorageModule.get("appData"));
+	localStorageModule.set("appData", updatedArr);
+};
 
 const setWeatherDataToLocalStorage = (req, id) => {
 	//need more work
