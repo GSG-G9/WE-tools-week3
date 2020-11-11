@@ -3,9 +3,14 @@ const closeSearchBoxBtn = document.getElementsByClassName("fa-times")[0];
 const searchInputBoxModal = document.getElementsByClassName("search-input")[0];
 const widgetsContainer = document.getElementById("widgets");
 const allWidgetsItem = document.querySelectorAll(".container .widgets-item");
+const cityInput = document.getElementById("city-input");
+const resultContainer = document.getElementById("result");
 
-allWidgetsItem.forEach((item) => {
-	// item.remove();
+cityInput.addEventListener("input", (e) => {
+  // if(e.target.value === "") {
+  //   resultContainer.childNodes[0].remove();
+  // }
+  renderSearchResult(searchCity(e.target.value, forTestArray));
 });
 
 addNewWidgetBtn.addEventListener("click", (e) => {
@@ -27,219 +32,305 @@ closeSearchBoxBtn.addEventListener("click", (e) => {
 });
 
 const forTestArray = [
-	{
-		dayName: "THR",
-		todayTemp: 25,
-		weather4Days: [
-			{ dayName: "FR", todayTemp: 20 },
-			{ dayName: "SAT", todayTemp: 15 },
-			{ dayName: "SUN", todayTemp: 18 },
-			{ dayName: "MOn", todayTemp: 17 },
-		],
-	},
-	{
-		dayName: "THR",
-		todayTemp: 25,
-		weather4Days: [
-			{ dayName: "FR", todayTemp: 20 },
-			{ dayName: "SAT", todayTemp: 15 },
-			{ dayName: "SUN", todayTemp: 18 },
-			{ dayName: "MOn", todayTemp: 17 },
-		],
-	},
-	{
-		dayName: "THR",
-		todayTemp: 25,
-		weather4Days: [
-			{ dayName: "FR", todayTemp: 20 },
-			{ dayName: "SAT", todayTemp: 15 },
-			{ dayName: "SUN", todayTemp: 18 },
-			{ dayName: "MOn", todayTemp: 17 },
-		],
-	},
-	{
-		dayName: "THR",
-		todayTemp: 25,
-		weather4Days: [
-			{ dayName: "FR", todayTemp: 20 },
-			{ dayName: "SAT", todayTemp: 15 },
-			{ dayName: "SUN", todayTemp: 18 },
-			{ dayName: "MOn", todayTemp: 17 },
-		],
-	},
+  {
+    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
+    dayName: "THR",
+    todayTemp: 25,
+    country: "Gaza",
+    weather4Days: [
+      { dayName: "FR", todayTemp: 20 },
+      { dayName: "SAT", todayTemp: 15 },
+      { dayName: "SUN", todayTemp: 18 },
+      { dayName: "MOn", todayTemp: 17 },
+    ],
+  },
+  {
+    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
+    dayName: "THR",
+    todayTemp: 25,
+    country: "Cairo",
+    weather4Days: [
+      { dayName: "FR", todayTemp: 20 },
+      { dayName: "SAT", todayTemp: 15 },
+      { dayName: "SUN", todayTemp: 18 },
+      { dayName: "MOn", todayTemp: 17 },
+    ],
+  },
+  {
+    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
+    dayName: "THR",
+    todayTemp: 25,
+    country: "Londom",
+    weather4Days: [
+      { dayName: "FR", todayTemp: 20 },
+      { dayName: "SAT", todayTemp: 15 },
+      { dayName: "SUN", todayTemp: 18 },
+      { dayName: "MOn", todayTemp: 17 },
+    ],
+  },
+  {
+    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
+    dayName: "THR",
+    todayTemp: 25,
+    country: "Makka",
+    weather4Days: [
+      { dayName: "FR", todayTemp: 20 },
+      { dayName: "SAT", todayTemp: 15 },
+      { dayName: "SUN", todayTemp: 18 },
+      { dayName: "MOn", todayTemp: 17 },
+    ],
+  },
+  {
+    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
+    dayName: "THR",
+    todayTemp: 25,
+    country: "Khanyounis",
+    weather4Days: [
+      { dayName: "FR", todayTemp: 20 },
+      { dayName: "SAT", todayTemp: 15 },
+      { dayName: "SUN", todayTemp: 18 },
+      { dayName: "MOn", todayTemp: 17 },
+    ],
+  },
+  {
+    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
+    dayName: "THR",
+    todayTemp: 25,
+    country: "Rafah",
+    weather4Days: [
+      { dayName: "FR", todayTemp: 20 },
+      { dayName: "SAT", todayTemp: 15 },
+      { dayName: "SUN", todayTemp: 18 },
+      { dayName: "MOn", todayTemp: 17 },
+    ],
+  },
 ];
 
-const color = ["#e5e522", "#e525d5", "#d555d5", "#27ff9c"];
+// Border Top Color
+const color = ["#e5e522", "#e525d5", "#f50555", "#27ff9c", "#555", "#ec9900"];
+
+// Render Search Result Functionality
+const renderSearchResult = (arrayOfResult) => {
+  // resultContainer.childNodes.forEach(item => item.remove());
+  resultContainer.innerHTML = "";
+  if (typeof arrayOfResult === "object") {
+    return arrayOfResult.forEach((item) => {
+      const resultItem = createDOMElmt("div", "class", "search-result-item");
+      resultItem.textContent = item.country;
+      resultItem.setAttribute("value", item.id);
+      resultItem.addEventListener("click", (e) => {
+        console.log(e.target.getAttribute("value"));
+      });
+      resultContainer.appendChild(resultItem);
+    });
+  }
+};
+
+// Function Get elementType, attType and attValue: return DOM Element
+const createDOMElmt = (elementType, attType, attValue) => {
+  const myDiv = document.createElement(elementType);
+  if (attType && attValue) {
+    myDiv.setAttribute(attType, attValue);
+  }
+  return myDiv;
+};
+
+// Function Reatuen AllDay Dom Element
+const createAllDayElement = (item, parentElement) => {
+  return item.weather4Days.forEach((element) => {
+    const weatherDetailsDay = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--day"
+    );
+
+    const weatherDetailsAllDaysName = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--allDays__name"
+    );
+
+    const weatherDetailsAllDaysNameText = createDOMElmt("h2");
+
+    weatherDetailsAllDaysNameText.textContent = element.dayName;
+    weatherDetailsAllDaysName.appendChild(weatherDetailsAllDaysNameText);
+    const weatherDetailsAllDaysIcon = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--allDays__icon"
+    );
+    const icon = createDOMElmt("i", "class", "fas fa-cloud-sun");
+    weatherDetailsAllDaysIcon.appendChild(icon);
+
+    const weatherDetailsAlldayTemp = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--today__temp"
+    );
+
+    weatherDetailsAlldayTemp.textContent = element.todayTemp + " C";
+
+    weatherDetailsDay.appendChild(weatherDetailsAllDaysName);
+    weatherDetailsDay.appendChild(weatherDetailsAllDaysIcon);
+    weatherDetailsDay.appendChild(weatherDetailsAlldayTemp);
+    parentElement.appendChild(weatherDetailsDay);
+  });
+};
 
 const renderWidgets = (array) => {
-	return array.forEach((item) => {
-		const widgetsItem = document.createElement("div");
-		widgetsItem.setAttribute("class", "widgets-item");
-		widgetsItem.style.borderTop = `35px solid ${
-			color[Math.floor(Math.random() * 4)]
-		}`;
+  let i = 0;
+  return array.forEach((item) => {
+    const widgetsItem = createDOMElmt("div", "class", "widgets-item");
 
-		const weatherDetailsSection = document.createElement("div");
-		weatherDetailsSection.setAttribute("class", "weather-details-section");
+    widgetsItem.style.borderTop = `35px solid ${color[i]}`;
 
-		const weatherDetailsToday = document.createElement("div");
-		weatherDetailsToday.setAttribute("class", "weather-details--today");
+    i++;
+    if (i >= color.length) {
+      i = 0;
+    }
 
-		// Waether Detailes Div
-		const weatherDetailsTodayBox = document.createElement("div");
-		weatherDetailsTodayBox.setAttribute("class", "weather-details--today--box");
+    const weatherDetailsSection = createDOMElmt(
+      "div",
+      "class",
+      "weather-details-section"
+    );
+    const weatherDetailsToday = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--today"
+    );
 
-		// Day Name Div
-		const weatherDetailsTodaysName = document.createElement("div");
-		weatherDetailsTodaysName.setAttribute(
-			"class",
-			"weather-details--todays__name"
-		);
-		const weatherDetailsAllDaysNameText = document.createElement("h2");
-		weatherDetailsAllDaysNameText.textContent = item.dayName;
-		weatherDetailsTodaysName.appendChild(weatherDetailsAllDaysNameText);
+    // Waether Detailes Div
+    const weatherDetailsTodayBox = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--today--box"
+    );
 
-		// Icon Div
-		const weatherDetailsTodayIcon = document.createElement("div");
-		weatherDetailsTodayIcon.setAttribute(
-			"class",
-			"weather-details--today__icon"
-		);
-		const weatherIcons = document.createElement("i");
-		weatherIcons.setAttribute("class", "fas fa-cloud-sun");
-		weatherDetailsTodayIcon.appendChild(weatherIcons);
+    // Day Name Div
+    const weatherDetailsTodaysName = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--todays__name"
+    );
 
-		// Weather Temp Div
-		const weatherDetailsTodayTemp = document.createElement("div");
-		weatherDetailsTodayTemp.setAttribute(
-			"class",
-			"weather-details--today__temp"
-		);
-		weatherDetailsTodayTemp.textContent = item.todayTemp + " C";
+    const weatherDetailsAllDaysNameText = createDOMElmt("h2");
 
-		// Clock Section
-		const clockSection = document.createElement("div");
-		clockSection.setAttribute("class", "clock-section");
-		setInterval(() => {
-			clockSection.textContent = new Date().toLocaleTimeString();
-		}, 1000);
+    weatherDetailsAllDaysNameText.textContent = item.dayName;
+    weatherDetailsTodaysName.appendChild(weatherDetailsAllDaysNameText);
 
-		// append element to weatherDetailsTodayBox
-		weatherDetailsTodayBox.appendChild(weatherDetailsTodaysName);
-		weatherDetailsTodayBox.appendChild(weatherDetailsTodayIcon);
-		weatherDetailsTodayBox.appendChild(weatherDetailsTodayTemp);
-		weatherDetailsToday.appendChild(weatherDetailsTodayBox);
-		weatherDetailsToday.appendChild(clockSection);
+    // Icon Div
+    const weatherDetailsTodayIcon = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--today__icon"
+    );
 
-		// widgetsContainer.appendChild(widgetsItem);
+    const weatherIcons = createDOMElmt("i", "class", "fas fa-cloud-sun");
+    weatherDetailsTodayIcon.appendChild(weatherIcons);
 
-		// Weather For 4 Days
-		const weatherDetailsAllDays = document.createElement("div");
-		weatherDetailsAllDays.setAttribute("class", "weather-details--allDays");
+    // Weather Temp Div
+    const weatherDetailsTodayTemp = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--today__temp"
+    );
+    weatherDetailsTodayTemp.textContent = item.todayTemp + " C";
 
-		const allDayItem = item.weather4Days.forEach((element) => {
-			const weatherDetailsDay = document.createElement("div");
-			weatherDetailsDay.setAttribute("class", "weather-details--day");
+    // Clock Section
+    const clockSection = createDOMElmt("div", "class", "clock-section");
 
-			const weatherDetailsAllDaysName = document.createElement("div");
-			weatherDetailsAllDaysName.setAttribute(
-				"class",
-				"weather-details--allDays__name"
-			);
+    setInterval(() => {
+      clockSection.textContent = new Date().toLocaleTimeString();
+    }, 1000);
 
-			const weatherDetailsAllDaysNameText = document.createElement("h2");
-			weatherDetailsAllDaysNameText.textContent = element.dayName;
-			weatherDetailsAllDaysName.appendChild(weatherDetailsAllDaysNameText);
+    // append element to weatherDetailsTodayBox
+    weatherDetailsTodayBox.append(
+      weatherDetailsTodaysName,
+      weatherDetailsTodayIcon,
+      weatherDetailsTodayTemp
+    );
 
-			const weatherDetailsAllDaysIcon = document.createElement("div");
-			weatherDetailsAllDaysIcon.setAttribute(
-				"class",
-				"weather-details--allDays__icon"
-			);
-			const icon = document.createElement("i");
-			icon.setAttribute("class", "fas fa-cloud-sun");
-			weatherDetailsAllDaysIcon.appendChild(icon);
+    weatherDetailsToday.append(weatherDetailsTodayBox, clockSection);
 
-			const weatherDetailsAlldayTemp = document.createElement("div");
-			weatherDetailsAlldayTemp.setAttribute(
-				"class",
-				"weather-details--today__temp"
-			);
-			weatherDetailsAlldayTemp.textContent = element.todayTemp + " C";
+    // Weather For 4 Days
+    const weatherDetailsAllDays = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--allDays"
+    );
 
-			weatherDetailsDay.appendChild(weatherDetailsAllDaysName);
-			weatherDetailsDay.appendChild(weatherDetailsAllDaysIcon);
-			weatherDetailsDay.appendChild(weatherDetailsAlldayTemp);
-			weatherDetailsAllDays.appendChild(weatherDetailsDay);
-		});
-		weatherDetailsSection.appendChild(weatherDetailsToday);
-		weatherDetailsSection.appendChild(weatherDetailsAllDays);
-		widgetsItem.appendChild(weatherDetailsSection);
+    createAllDayElement(item, weatherDetailsAllDays);
 
-		// Currency section Element
-		const currenciesSection = document.createElement("div");
-		currenciesSection.setAttribute("class", "currencies-section");
+    weatherDetailsSection.append(weatherDetailsToday, weatherDetailsAllDays);
 
-		// Currency Box Elemen
-		const currenciesBox = document.createElement("div");
-		currenciesBox.setAttribute("class", "currencies--box");
+    const currenciesSection = createDOMElmt(
+      "div",
+      "class",
+      "currencies-section"
+    );
 
-		// Inter Currency Element
-		const currenciesIntr = document.createElement("div");
-		currenciesIntr.setAttribute("class", "currencies-intr");
+    const currenciesBox = createDOMElmt("div", "class", "currencies--box");
 
-		const currenciesIntrName = document.createElement("div");
-		currenciesIntrName.setAttribute("class", "currencies-intr--name");
-		currenciesIntrName.textContent = "USD";
+    const currenciesIntr = createDOMElmt("div", "class", "currencies-intr");
 
-		const currenciesIntrValue = document.createElement("div");
-		currenciesIntrValue.setAttribute("class", "currencies-intr--value");
+    const currenciesIntrName = createDOMElmt(
+      "div",
+      "class",
+      "currencies-intr--name"
+    );
+    currenciesIntrName.textContent = "USD";
+    const currenciesIntrValue = createDOMElmt(
+      "div",
+      "class",
+      "currencies-intr--value"
+    );
+    const InterCurrencySympole = createDOMElmt("span", "class", "sympole");
+    InterCurrencySympole.textContent = "$";
 
-		const InterCurrencySympole = document.createElement("span");
-		InterCurrencySympole.setAttribute("class", "sympole");
-		InterCurrencySympole.textContent = "$";
+    currenciesIntrValue.textContent = 1;
+    currenciesIntrValue.insertAdjacentElement(
+      "beforeend",
+      InterCurrencySympole
+    );
 
-		currenciesIntrValue.textContent = 1;
-		currenciesIntrValue.insertAdjacentElement(
-			"beforeend",
-			InterCurrencySympole
-		);
+    currenciesIntr.appendChild(currenciesIntrName);
+    currenciesIntr.appendChild(currenciesIntrValue);
 
-		currenciesIntr.appendChild(currenciesIntrName);
-		currenciesIntr.appendChild(currenciesIntrValue);
+    // Local Currency Element
+    const currenciesLocal = createDOMElmt("div", "class", "currencies-local");
 
-		// Local Currency Element
-		const currenciesLocal = document.createElement("div");
-		currenciesLocal.setAttribute("class", "currencies-local");
+    const currenciesLocalName = createDOMElmt(
+      "div",
+      "class",
+      "currencies-local--name"
+    );
+    currenciesLocalName.textContent = "ILS";
+    const currenciesLocalValue = createDOMElmt(
+      "div",
+      "class",
+      "currencies-local--value"
+    );
 
-		const currenciesLocalName = document.createElement("div");
-		currenciesLocalName.setAttribute("class", "currencies-local--name");
-		currenciesLocalName.textContent = "ILS";
+    const localCurrencySympole = createDOMElmt("span", "class", "sympole");
 
-		const currenciesLocalValue = document.createElement("div");
-		currenciesLocalValue.setAttribute("class", "currencies-local--value");
+    localCurrencySympole.textContent = "#";
 
-		const localCurrencySympole = document.createElement("span");
-		localCurrencySympole.setAttribute("class", "sympole");
-		localCurrencySympole.textContent = "#";
+    currenciesLocalValue.textContent = 3.4;
+    currenciesLocalValue.insertAdjacentElement(
+      "beforeend",
+      localCurrencySympole
+    );
 
-		currenciesLocalValue.textContent = 3.4;
-		currenciesLocalValue.insertAdjacentElement(
-			"beforeend",
-			localCurrencySympole
-		);
+    currenciesLocal.append(currenciesLocalName, currenciesLocalValue);
 
-		currenciesLocal.appendChild(currenciesLocalName);
-		currenciesLocal.appendChild(currenciesLocalValue);
+    currenciesBox.append(currenciesIntr, currenciesLocal);
 
-		currenciesBox.appendChild(currenciesIntr);
-		currenciesBox.appendChild(currenciesLocal);
+    currenciesSection.appendChild(currenciesBox);
 
-		currenciesSection.appendChild(currenciesBox);
-
-		widgetsItem.appendChild(currenciesSection);
-		widgetsContainer.appendChild(widgetsItem);
-	});
+    widgetsItem.append(weatherDetailsSection, currenciesSection);
+    widgetsContainer.appendChild(widgetsItem);
+  });
 };
 
 document.addEventListener("DOMContentLoaded", (e) => {
