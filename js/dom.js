@@ -113,18 +113,14 @@ const color = ["#e5e522", "#e525d5", "#f50555", "#27ff9c", "#555", "#ec9900"];
 const renderSearchResult = (arrayOfResult) => {
   // resultContainer.childNodes.forEach(item => item.remove());
   resultContainer.innerHTML = "";
-  console.log(resultContainer.childNodes);
-  console.log(arrayOfResult);
-  if(typeof arrayOfResult === "object") {
+  if (typeof arrayOfResult === "object") {
     return arrayOfResult.forEach((item) => {
       const resultItem = createDOMElmt("div", "class", "search-result-item");
       resultItem.textContent = item.country;
       resultItem.setAttribute("value", item.id);
-      console.log(resultItem);
-      resultItem.addEventListener("click", e => {
-        
+      resultItem.addEventListener("click", (e) => {
         console.log(e.target.getAttribute("value"));
-      })
+      });
       resultContainer.appendChild(resultItem);
     });
   }
