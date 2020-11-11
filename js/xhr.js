@@ -51,6 +51,9 @@ const testArr_0 = [
 	},
 ];
 localStorageModule.set("appData", testArr_0);
+
+localStorageModule.set("renderData", localStorageModule.get("appData")[0]);
+localStorageModule.get('renderData')
 //request Xhr function - take callback - url
 const requestXhr = (url, callback, errorHandle) => {
 	const xhr = new XMLHttpRequest();
