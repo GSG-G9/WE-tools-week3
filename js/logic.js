@@ -1,5 +1,4 @@
-//
-const searchCity = (cityName, AppData) => {
+let searchCity = (cityName, AppData) => {
 	if (cityName === "") {
 		return "city name is invalid";
 	}
@@ -21,4 +20,4 @@ function editObject(newObj, objectArrays) {
 	];
 }
 
-module.exports = { searchCity, editObject };
+//module.exports = { searchCity, editObject };

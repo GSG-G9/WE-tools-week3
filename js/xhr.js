@@ -14,6 +14,8 @@ const testArr_0 = [
 			long: 34,
 			lat: 31,
 		},
+		currencySymbol: "ILS",
+		currencyValue: 1,
 		dayName: "THR",
 		todayTemp: 25,
 		weather4Days: [
@@ -28,6 +30,8 @@ const testArr_0 = [
 			long: 20,
 			lat: 11,
 		},
+		currencySymbol: "USD",
+		currencyValue: 1,
 		dayName: "THR",
 		todayTemp: 25,
 		weather4Days: [
@@ -44,6 +48,8 @@ const testArr_0 = [
 		},
 		dayName: "THR",
 		todayTemp: 25,
+		currencySymbol: "EUR",
+		currencyValue: 1,
 		weather4Days: [
 			{ dayName: "FR", todayTemp: 20 },
 			{ dayName: "SAT", todayTemp: 15 },
@@ -112,6 +118,11 @@ const errorHandle = (error) => {
 
 const weatherApiUrl = (lat, long) =>
 	`http://api.weatherapi.com/v1/forecast.json?key=${config.weatherApiKey}&q=${lat},${long}&days=3`;
+const currencyExchangeApi = (baseCurrency) =>
+	`https://api.exchangeratesapi.io/latest?base=ILS&symbols=${baseCurrency}`;
+
+const currencyExchangeApiBase = "https://api.exchangeratesapi.io/latest?base=";
+
 let query = () =>
 	localStorageModule.get("appData").forEach((obj) => {
 		requestXhr(
@@ -119,7 +130,21 @@ let query = () =>
 			(req) => setWeatherDataToLocalStorage(req, obj.id),
 			errorHandle
 		);
+		requestXhr(
+			currencyExchangeApi(obj.currencySymbol),
+			(req) => setCurrencyDataToLocalStorage(req, obj.id),
+			errorHandle
+		);
 	});
+
+const setCurrencyDataToLocalStorage = (req, id) => {
+	const newObj = {
+		id,
+		currencyValue: Object.values(req.rates)[0],
+	};
+	const updatedArr = editObject(newObj, localStorageModule.get("appData"));
+	localStorageModule.set("appData", updatedArr);
+};
 
 const setWeatherDataToLocalStorage = (req, id) => {
 	//need more work
@@ -146,3 +171,47 @@ const setWeatherDataToLocalStorage = (req, id) => {
 };
 
 query();
+
+////Cached Values for Currency Exchanger
+
+//Cached Values for Currency Exchanger
+const cacheValues = (() => {
+	cachedRate = {};
+	return {
+		set: (baseCurrency, returnRate) =>
+			(cachedRate[baseCurrency] = {
+				rates: returnRate,
+				timestamp: Date.now(),
+			}),
+		get: (baseCurrency) => cachedRate[baseCurrency],
+	};
+})();
+//Get Rates from Api and set cache
+const getRates = (baseCurrency, callback) => {
+	requestXhr(`${currencyExchangeApiBase}${baseCurrency}`, (res) => {
+		const returnRate = res.rates;
+		cacheValues.set(baseCurrency, returnRate);
+		callback(returnRate);
+	});
+};
+//General function to used with change event
+const calculateRate = () => {
+	const baseCurrency = baseSelect.value;
+	const targetCurrency = targetSelect.value;
+	if (
+		cacheValues.get(baseCurrency) !== undefined &&
+		Date.now() - cacheValues.get(baseCurrency).timestamp < 1000 * 60
+	) {
+		const rate = cacheValues.get(baseCurrency).rates[targetCurrency];
+		target.value = rate * base.value;
+		return;
+	}
+	getRates(baseCurrency, (rates) => {
+		target.value = rates[targetCurrency] * base.value;
+	});
+};
+
+//add event listener to currency inputs :)
+[base, baseSelect, targetSelect].forEach((node) =>
+	node.addEventListener("change", calculateRate)
+);
