@@ -9,7 +9,7 @@ const searchCity = (cityName, AppData) => {
 	if (foundData.length === 0) {
 		return "city not found";
 	}
-	return foundData[0].country;
+	return foundData;
 };
 
 module.exports = { searchCity };

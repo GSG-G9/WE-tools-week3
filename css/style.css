@@ -206,6 +206,26 @@ body {
   margin-top: 2rem;
   background-color: #f0f0f0;
   box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: flex-start;
+  padding: 1rem;
+}
+
+#result div {
+  width: 150px;
+  height: 40px;
+  text-align: center;
+  padding: 5px;
+  background-color: #258bff;
+  line-height: 30px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  letter-spacing: 2px;
+  margin: 10px;
+  cursor: pointer;
 }
 
 .block {
