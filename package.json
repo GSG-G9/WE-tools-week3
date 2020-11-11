@@ -4,7 +4,7 @@
   "description": "this app is about show the weather around the world.",
   "main": "config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -16,7 +16,8 @@
     "url": "https://github.com/GSG-G9/WE-tools-week3/issues"
   },
   "homepage": "https://github.com/GSG-G9/WE-tools-week3#readme",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "jest": "^26.6.3"
   }
 }

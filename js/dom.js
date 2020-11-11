@@ -3,15 +3,15 @@ const closeSearchBoxBtn = document.getElementsByClassName("fa-times")[0];
 const searchInputBoxModal = document.getElementsByClassName("search-input")[0];
 const widgetsContainer = document.getElementById("widgets");
 const allWidgetsItem = document.querySelectorAll(".container .widgets-item");
-const cityInput = document.getElementsByClassName("city-input")[0];
+const cityInput = document.getElementById("city-input");
+const resultContainer = document.getElementById("result");
 
-allWidgetsItem.forEach((item) => {
-  // item.remove();
+cityInput.addEventListener("input", (e) => {
+  // if(e.target.value === "") {
+  //   resultContainer.childNodes[0].remove();
+  // }
+  renderSearchResult(searchCity(e.target.value, forTestArray));
 });
-
-cityInput.addEventListener("input", e => {
-  e.target.value;
-})
 
 addNewWidgetBtn.addEventListener("click", (e) => {
   window.scrollTo(0, 0);
@@ -33,8 +33,10 @@ closeSearchBoxBtn.addEventListener("click", (e) => {
 
 const forTestArray = [
   {
+    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
     dayName: "THR",
     todayTemp: 25,
+    country: "Gaza",
     weather4Days: [
       { dayName: "FR", todayTemp: 20 },
       { dayName: "SAT", todayTemp: 15 },
@@ -43,8 +45,10 @@ const forTestArray = [
     ],
   },
   {
+    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
     dayName: "THR",
     todayTemp: 25,
+    country: "Cairo",
     weather4Days: [
       { dayName: "FR", todayTemp: 20 },
       { dayName: "SAT", todayTemp: 15 },
@@ -53,8 +57,10 @@ const forTestArray = [
     ],
   },
   {
+    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
     dayName: "THR",
     todayTemp: 25,
+    country: "Londom",
     weather4Days: [
       { dayName: "FR", todayTemp: 20 },
       { dayName: "SAT", todayTemp: 15 },
@@ -63,8 +69,10 @@ const forTestArray = [
     ],
   },
   {
+    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
     dayName: "THR",
     todayTemp: 25,
+    country: "Makka",
     weather4Days: [
       { dayName: "FR", todayTemp: 20 },
       { dayName: "SAT", todayTemp: 15 },
@@ -73,8 +81,10 @@ const forTestArray = [
     ],
   },
   {
+    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
     dayName: "THR",
     todayTemp: 25,
+    country: "Khanyounis",
     weather4Days: [
       { dayName: "FR", todayTemp: 20 },
       { dayName: "SAT", todayTemp: 15 },
@@ -83,28 +93,10 @@ const forTestArray = [
     ],
   },
   {
+    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
     dayName: "THR",
     todayTemp: 25,
-    weather4Days: [
-      { dayName: "FR", todayTemp: 20 },
-      { dayName: "SAT", todayTemp: 15 },
-      { dayName: "SUN", todayTemp: 18 },
-      { dayName: "MOn", todayTemp: 17 },
-    ],
-  },
-  {
-    dayName: "THR",
-    todayTemp: 25,
-    weather4Days: [
-      { dayName: "FR", todayTemp: 20 },
-      { dayName: "SAT", todayTemp: 15 },
-      { dayName: "SUN", todayTemp: 18 },
-      { dayName: "MOn", todayTemp: 17 },
-    ],
-  },
-  {
-    dayName: "THR",
-    todayTemp: 25,
+    country: "Rafah",
     weather4Days: [
       { dayName: "FR", todayTemp: 20 },
       { dayName: "SAT", todayTemp: 15 },
@@ -116,6 +108,27 @@ const forTestArray = [
 
 // Border Top Color
 const color = ["#e5e522", "#e525d5", "#f50555", "#27ff9c", "#555", "#ec9900"];
+
+// Render Search Result Functionality
+const renderSearchResult = (arrayOfResult) => {
+  // resultContainer.childNodes.forEach(item => item.remove());
+  resultContainer.innerHTML = "";
+  console.log(resultContainer.childNodes);
+  console.log(arrayOfResult);
+  if(typeof arrayOfResult === "object") {
+    return arrayOfResult.forEach((item) => {
+      const resultItem = createDOMElmt("div", "class", "search-result-item");
+      resultItem.textContent = item.country;
+      resultItem.setAttribute("value", item.id);
+      console.log(resultItem);
+      resultItem.addEventListener("click", e => {
+        
+        console.log(e.target.getAttribute("value"));
+      })
+      resultContainer.appendChild(resultItem);
+    });
+  }
+};
 
 // Function Get elementType, attType and attValue: return DOM Element
 const createDOMElmt = (elementType, attType, attValue) => {
@@ -173,12 +186,10 @@ const renderWidgets = (array) => {
   return array.forEach((item) => {
     const widgetsItem = createDOMElmt("div", "class", "widgets-item");
 
-    widgetsItem.style.borderTop = `35px solid ${
-      color[i]
-    }`;
+    widgetsItem.style.borderTop = `35px solid ${color[i]}`;
 
     i++;
-    if(i >= color.length) {
+    if (i >= color.length) {
       i = 0;
     }
 
@@ -238,7 +249,11 @@ const renderWidgets = (array) => {
     }, 1000);
 
     // append element to weatherDetailsTodayBox
-    weatherDetailsTodayBox.append(weatherDetailsTodaysName, weatherDetailsTodayIcon, weatherDetailsTodayTemp);
+    weatherDetailsTodayBox.append(
+      weatherDetailsTodaysName,
+      weatherDetailsTodayIcon,
+      weatherDetailsTodayTemp
+    );
 
     weatherDetailsToday.append(weatherDetailsTodayBox, clockSection);
 
