@@ -3,7 +3,7 @@ let searchCity = (cityName, AppData) => {
 		return "city name is invalid";
 	}
 	const foundData = AppData.filter((obj) =>
-		obj.country.toLowerCase().includes(cityName.toLowerCase().trim())
+		obj.cityName.toLowerCase().includes(cityName.toLowerCase().trim())
 	);
 	if (foundData.length === 0) {
 		return "city not found";
