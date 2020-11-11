@@ -27,6 +27,8 @@ This app is about show the Time, weather, and currency around the world
 - We sperate the app to two main section. One is about front end, and the other is about APIs and logic sutff.Each section has its own issues.
   Sometimes we worked in issues indivesually, and sometimes we worked in pairs.displaytrech goals
 
+## Strech goals
+
 - Some error validation, some errors need more cases to be fully handeled.
 - remove cards from the dispaly.
 - Some enimations in the cards and adding more styles to be more attractive.
