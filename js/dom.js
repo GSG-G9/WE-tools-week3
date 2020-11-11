@@ -106,7 +106,8 @@ const createAllDayElement = (item, parentElement) => {
       "class",
       "weather-details--allDays__icon"
     );
-    const icon = createDOMElmt("i", "class", "fas fa-cloud-sun");
+    const icon = createDOMElmt("img", "class", "weather-iconpng");
+    icon.setAttribute("src", "http://" + item.weatherIcon)
     weatherDetailsAllDaysIcon.appendChild(icon);
 
     const weatherDetailsAlldayTemp = createDOMElmt(
@@ -182,7 +183,8 @@ const renderWidgets = (array) => {
       "weather-details--today__icon"
     );
 
-    const weatherIcons = createDOMElmt("i", "class", "fas fa-cloud-sun");
+    const weatherIcons = createDOMElmt("img", "class", "weather-iconpng");
+    weatherIcons.setAttribute("src", "http://" + item.weatherIcon);
     weatherDetailsTodayIcon.appendChild(weatherIcons);
 
     // Weather Temp Div
@@ -242,9 +244,9 @@ const renderWidgets = (array) => {
       "currencies-intr--value"
     );
     const InterCurrencySympole = createDOMElmt("span", "class", "sympole");
-    InterCurrencySympole.textContent = "$";
+    InterCurrencySympole.textContent = item.currencySymbol;
 
-    currenciesIntrValue.textContent = 1;
+    currenciesIntrValue.textContent = item.currencyValue.toFixed(3);
     currenciesIntrValue.insertAdjacentElement(
       "beforeend",
       InterCurrencySympole
@@ -261,7 +263,7 @@ const renderWidgets = (array) => {
       "class",
       "currencies-local--name"
     );
-    currenciesLocalName.textContent = item.currencySympole;
+    currenciesLocalName.textContent = "ILS";
     const currenciesLocalValue = createDOMElmt(
       "div",
       "class",
@@ -270,9 +272,9 @@ const renderWidgets = (array) => {
 
     const localCurrencySympole = createDOMElmt("span", "class", "sympole");
 
-    localCurrencySympole.textContent = "#";
+    localCurrencySympole.textContent = " ILS";
 
-    currenciesLocalValue.textContent = 3.4;
+    currenciesLocalValue.textContent = Number(1).toFixed(2);
     currenciesLocalValue.insertAdjacentElement(
       "beforeend",
       localCurrencySympole
