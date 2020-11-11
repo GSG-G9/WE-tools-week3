@@ -1,0 +1,246 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  box-sizing: border-box;
+  background-color: #252525;
+  min-height: 100vh;
+  font-family: "Montserrat", sans-serif;
+}
+
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding-top: 3rem;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.container {
+  width: 100%;
+  background-color: #f5f5f5;
+  /* box-shadow: 5px 5px 15px 0 #cecece2c; */
+  background-color: transparent;
+  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.widgets-item {
+  width: 31%;
+  margin: 10px;
+  border-radius: 10px;
+  padding: 1rem;
+  color: #e5e5e5;
+  background-image: linear-gradient(180deg, #5599d5, #1e65ff);
+}
+
+.weather-details-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.weather-details--today {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.weather-details--today .clock-section {
+  font-size: 36px;
+  font-weight: bolder;
+  width: 45%;
+}
+
+.weather-details--allDays {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-bottom: 10px;
+}
+
+.weather-details--todays__name h2 {
+  margin: 0%;
+}
+
+.weather-details--allDays__name h2 {
+  color: #e5e5e5;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.fas {
+  font-size: 48px;
+  color: #e5e5e5;
+}
+
+.weather-details--allDays__icon .fas {
+  font-size: 36px;
+}
+
+.currencies-section {
+  padding: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: #e5e5e534;
+}
+
+.currencies-section .currencies--box {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  text-align: center;
+}
+
+.currencies-section .currencies--box div {
+  margin-right: 1rem;
+}
+
+/* Add New Item Section Style */
+
+.add-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 31%;
+  border: 10px dashed #e5e5e5;
+  border-spacing: 10px;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 1rem;
+  background-color: #e5e5e515;
+  color: #e5e5e5;
+  min-height: 336px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.add-container .fa-plus {
+  font-size: 130px;
+  font-weight: bold;
+}
+
+.add-container:hover {
+  background-color: #e5e5e53d;
+  transition: all 0.25s;
+}
+
+/* Search Input Style */
+
+.search-input {
+  display: none;
+}
+
+.search-input-container {
+  width: 900px;
+  padding: 2rem 1rem;
+  padding-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  position: absolute;
+  top: 10%;
+  left: calc(50% - 450px);
+}
+
+.search-input-container input[type='search'] {
+  width: 620px;
+  height: 50px;
+  border-radius: 8px;
+  border: 2px solid #a5a5a5;
+  background-color: #f5f5f5;
+  color: #252525;
+  outline: none;
+  font-size: 22px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  letter-spacing: 3px;
+}
+
+.search-box--title {
+  text-align: center;
+  color: #252525;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: #252525;
+}
+
+.close-btn .fa-times {
+  color: #252525;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.close-btn .fa-times:hover {
+  color: #a80202;
+  transform-origin: center;
+  transform: scale(1.1);
+  transition: all 0.25s;
+}
+
+#result {
+  border: 3px dashed #24a0f3;
+  border-radius: 5px;
+  width: 620px;
+  min-height: 250px;
+  margin-top: 2rem;
+  background-color: #f0f0f0;
+  box-sizing: border-box;
+}
+
+.block {
+  display: block;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.35s ease-in;
+  animation-fill-mode: forwards;
+}
+
+.fade-out {
+  opacity: 1;
+  animation: fadeOut 0.35s ease-in;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
