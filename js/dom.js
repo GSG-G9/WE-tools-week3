@@ -3,10 +3,15 @@ const closeSearchBoxBtn = document.getElementsByClassName("fa-times")[0];
 const searchInputBoxModal = document.getElementsByClassName("search-input")[0];
 const widgetsContainer = document.getElementById("widgets");
 const allWidgetsItem = document.querySelectorAll(".container .widgets-item");
+const cityInput = document.getElementsByClassName("city-input")[0];
 
 allWidgetsItem.forEach((item) => {
   // item.remove();
 });
+
+cityInput.addEventListener("input", e => {
+  e.target.value;
+})
 
 addNewWidgetBtn.addEventListener("click", (e) => {
   window.scrollTo(0, 0);
@@ -67,136 +72,209 @@ const forTestArray = [
       { dayName: "MOn", todayTemp: 17 },
     ],
   },
+  {
+    dayName: "THR",
+    todayTemp: 25,
+    weather4Days: [
+      { dayName: "FR", todayTemp: 20 },
+      { dayName: "SAT", todayTemp: 15 },
+      { dayName: "SUN", todayTemp: 18 },
+      { dayName: "MOn", todayTemp: 17 },
+    ],
+  },
+  {
+    dayName: "THR",
+    todayTemp: 25,
+    weather4Days: [
+      { dayName: "FR", todayTemp: 20 },
+      { dayName: "SAT", todayTemp: 15 },
+      { dayName: "SUN", todayTemp: 18 },
+      { dayName: "MOn", todayTemp: 17 },
+    ],
+  },
+  {
+    dayName: "THR",
+    todayTemp: 25,
+    weather4Days: [
+      { dayName: "FR", todayTemp: 20 },
+      { dayName: "SAT", todayTemp: 15 },
+      { dayName: "SUN", todayTemp: 18 },
+      { dayName: "MOn", todayTemp: 17 },
+    ],
+  },
+  {
+    dayName: "THR",
+    todayTemp: 25,
+    weather4Days: [
+      { dayName: "FR", todayTemp: 20 },
+      { dayName: "SAT", todayTemp: 15 },
+      { dayName: "SUN", todayTemp: 18 },
+      { dayName: "MOn", todayTemp: 17 },
+    ],
+  },
 ];
 
-const color = ["#e5e522", "#e525d5", "#d555d5", "#27ff9c"];
+// Border Top Color
+const color = ["#e5e522", "#e525d5", "#f50555", "#27ff9c", "#555", "#ec9900"];
+
+// Function Get elementType, attType and attValue: return DOM Element
+const createDOMElmt = (elementType, attType, attValue) => {
+  const myDiv = document.createElement(elementType);
+  if (attType && attValue) {
+    myDiv.setAttribute(attType, attValue);
+  }
+  return myDiv;
+};
+
+// Function Reatuen AllDay Dom Element
+const createAllDayElement = (item, parentElement) => {
+  return item.weather4Days.forEach((element) => {
+    const weatherDetailsDay = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--day"
+    );
+
+    const weatherDetailsAllDaysName = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--allDays__name"
+    );
+
+    const weatherDetailsAllDaysNameText = createDOMElmt("h2");
+
+    weatherDetailsAllDaysNameText.textContent = element.dayName;
+    weatherDetailsAllDaysName.appendChild(weatherDetailsAllDaysNameText);
+    const weatherDetailsAllDaysIcon = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--allDays__icon"
+    );
+    const icon = createDOMElmt("i", "class", "fas fa-cloud-sun");
+    weatherDetailsAllDaysIcon.appendChild(icon);
+
+    const weatherDetailsAlldayTemp = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--today__temp"
+    );
+
+    weatherDetailsAlldayTemp.textContent = element.todayTemp + " C";
+
+    weatherDetailsDay.appendChild(weatherDetailsAllDaysName);
+    weatherDetailsDay.appendChild(weatherDetailsAllDaysIcon);
+    weatherDetailsDay.appendChild(weatherDetailsAlldayTemp);
+    parentElement.appendChild(weatherDetailsDay);
+  });
+};
 
 const renderWidgets = (array) => {
+  let i = 0;
   return array.forEach((item) => {
-    const widgetsItem = document.createElement("div");
-    widgetsItem.setAttribute("class", "widgets-item");
+    const widgetsItem = createDOMElmt("div", "class", "widgets-item");
+
     widgetsItem.style.borderTop = `35px solid ${
-      color[Math.floor(Math.random() * 4)]
+      color[i]
     }`;
 
-    const weatherDetailsSection = document.createElement("div");
-    weatherDetailsSection.setAttribute("class", "weather-details-section");
+    i++;
+    if(i >= color.length) {
+      i = 0;
+    }
 
-    const weatherDetailsToday = document.createElement("div");
-    weatherDetailsToday.setAttribute("class", "weather-details--today");
+    const weatherDetailsSection = createDOMElmt(
+      "div",
+      "class",
+      "weather-details-section"
+    );
+    const weatherDetailsToday = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--today"
+    );
 
     // Waether Detailes Div
-    const weatherDetailsTodayBox = document.createElement("div");
-    weatherDetailsTodayBox.setAttribute("class", "weather-details--today--box");
+    const weatherDetailsTodayBox = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--today--box"
+    );
 
     // Day Name Div
-    const weatherDetailsTodaysName = document.createElement("div");
-    weatherDetailsTodaysName.setAttribute(
+    const weatherDetailsTodaysName = createDOMElmt(
+      "div",
       "class",
       "weather-details--todays__name"
     );
-    const weatherDetailsAllDaysNameText = document.createElement("h2");
+
+    const weatherDetailsAllDaysNameText = createDOMElmt("h2");
+
     weatherDetailsAllDaysNameText.textContent = item.dayName;
     weatherDetailsTodaysName.appendChild(weatherDetailsAllDaysNameText);
 
     // Icon Div
-    const weatherDetailsTodayIcon = document.createElement("div");
-    weatherDetailsTodayIcon.setAttribute(
+    const weatherDetailsTodayIcon = createDOMElmt(
+      "div",
       "class",
       "weather-details--today__icon"
     );
-    const weatherIcons = document.createElement("i");
-    weatherIcons.setAttribute("class", "fas fa-cloud-sun");
+
+    const weatherIcons = createDOMElmt("i", "class", "fas fa-cloud-sun");
     weatherDetailsTodayIcon.appendChild(weatherIcons);
 
     // Weather Temp Div
-    const weatherDetailsTodayTemp = document.createElement("div");
-    weatherDetailsTodayTemp.setAttribute(
+    const weatherDetailsTodayTemp = createDOMElmt(
+      "div",
       "class",
       "weather-details--today__temp"
     );
     weatherDetailsTodayTemp.textContent = item.todayTemp + " C";
 
     // Clock Section
-    const clockSection = document.createElement("div");
-    clockSection.setAttribute("class", "clock-section");
+    const clockSection = createDOMElmt("div", "class", "clock-section");
+
     setInterval(() => {
       clockSection.textContent = new Date().toLocaleTimeString();
     }, 1000);
 
     // append element to weatherDetailsTodayBox
-    weatherDetailsTodayBox.appendChild(weatherDetailsTodaysName);
-    weatherDetailsTodayBox.appendChild(weatherDetailsTodayIcon);
-    weatherDetailsTodayBox.appendChild(weatherDetailsTodayTemp);
-    weatherDetailsToday.appendChild(weatherDetailsTodayBox);
-    weatherDetailsToday.appendChild(clockSection);
+    weatherDetailsTodayBox.append(weatherDetailsTodaysName, weatherDetailsTodayIcon, weatherDetailsTodayTemp);
 
-    // widgetsContainer.appendChild(widgetsItem);
+    weatherDetailsToday.append(weatherDetailsTodayBox, clockSection);
 
     // Weather For 4 Days
-    const weatherDetailsAllDays = document.createElement("div");
-    weatherDetailsAllDays.setAttribute("class", "weather-details--allDays");
+    const weatherDetailsAllDays = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--allDays"
+    );
 
-    const allDayItem = item.weather4Days.forEach((element) => {
-      const weatherDetailsDay = document.createElement("div");
-      weatherDetailsDay.setAttribute("class", "weather-details--day");
+    createAllDayElement(item, weatherDetailsAllDays);
 
-      const weatherDetailsAllDaysName = document.createElement("div");
-      weatherDetailsAllDaysName.setAttribute(
-        "class",
-        "weather-details--allDays__name"
-      );
+    weatherDetailsSection.append(weatherDetailsToday, weatherDetailsAllDays);
 
-      const weatherDetailsAllDaysNameText = document.createElement("h2");
-      weatherDetailsAllDaysNameText.textContent = element.dayName;
-      weatherDetailsAllDaysName.appendChild(weatherDetailsAllDaysNameText);
+    const currenciesSection = createDOMElmt(
+      "div",
+      "class",
+      "currencies-section"
+    );
 
-      const weatherDetailsAllDaysIcon = document.createElement("div");
-      weatherDetailsAllDaysIcon.setAttribute(
-        "class",
-        "weather-details--allDays__icon"
-      );
-      const icon = document.createElement("i");
-      icon.setAttribute("class", "fas fa-cloud-sun");
-      weatherDetailsAllDaysIcon.appendChild(icon);
+    const currenciesBox = createDOMElmt("div", "class", "currencies--box");
 
-      const weatherDetailsAlldayTemp = document.createElement("div");
-      weatherDetailsAlldayTemp.setAttribute(
-        "class",
-        "weather-details--today__temp"
-      );
-      weatherDetailsAlldayTemp.textContent = element.todayTemp + " C";
+    const currenciesIntr = createDOMElmt("div", "class", "currencies-intr");
 
-      weatherDetailsDay.appendChild(weatherDetailsAllDaysName);
-      weatherDetailsDay.appendChild(weatherDetailsAllDaysIcon);
-      weatherDetailsDay.appendChild(weatherDetailsAlldayTemp);
-      weatherDetailsAllDays.appendChild(weatherDetailsDay);
-    });
-    weatherDetailsSection.appendChild(weatherDetailsToday);
-    weatherDetailsSection.appendChild(weatherDetailsAllDays);
-    widgetsItem.appendChild(weatherDetailsSection);
-
-    // Currency section Element
-    const currenciesSection = document.createElement("div");
-    currenciesSection.setAttribute("class", "currencies-section");
-
-    // Currency Box Elemen
-    const currenciesBox = document.createElement("div");
-    currenciesBox.setAttribute("class", "currencies--box");
-
-    // Inter Currency Element
-    const currenciesIntr = document.createElement("div");
-    currenciesIntr.setAttribute("class", "currencies-intr");
-
-    const currenciesIntrName = document.createElement("div");
-    currenciesIntrName.setAttribute("class", "currencies-intr--name");
+    const currenciesIntrName = createDOMElmt(
+      "div",
+      "class",
+      "currencies-intr--name"
+    );
     currenciesIntrName.textContent = "USD";
-
-    const currenciesIntrValue = document.createElement("div");
-    currenciesIntrValue.setAttribute("class", "currencies-intr--value");
-
-    const InterCurrencySympole = document.createElement("span");
-    InterCurrencySympole.setAttribute("class", "sympole");
+    const currenciesIntrValue = createDOMElmt(
+      "div",
+      "class",
+      "currencies-intr--value"
+    );
+    const InterCurrencySympole = createDOMElmt("span", "class", "sympole");
     InterCurrencySympole.textContent = "$";
 
     currenciesIntrValue.textContent = 1;
@@ -209,18 +287,22 @@ const renderWidgets = (array) => {
     currenciesIntr.appendChild(currenciesIntrValue);
 
     // Local Currency Element
-    const currenciesLocal = document.createElement("div");
-    currenciesLocal.setAttribute("class", "currencies-local");
+    const currenciesLocal = createDOMElmt("div", "class", "currencies-local");
 
-    const currenciesLocalName = document.createElement("div");
-    currenciesLocalName.setAttribute("class", "currencies-local--name");
+    const currenciesLocalName = createDOMElmt(
+      "div",
+      "class",
+      "currencies-local--name"
+    );
     currenciesLocalName.textContent = "ILS";
+    const currenciesLocalValue = createDOMElmt(
+      "div",
+      "class",
+      "currencies-local--value"
+    );
 
-    const currenciesLocalValue = document.createElement("div");
-    currenciesLocalValue.setAttribute("class", "currencies-local--value");
+    const localCurrencySympole = createDOMElmt("span", "class", "sympole");
 
-    const localCurrencySympole = document.createElement("span");
-    localCurrencySympole.setAttribute("class", "sympole");
     localCurrencySympole.textContent = "#";
 
     currenciesLocalValue.textContent = 3.4;
@@ -229,15 +311,13 @@ const renderWidgets = (array) => {
       localCurrencySympole
     );
 
-    currenciesLocal.appendChild(currenciesLocalName);
-    currenciesLocal.appendChild(currenciesLocalValue);
+    currenciesLocal.append(currenciesLocalName, currenciesLocalValue);
 
-    currenciesBox.appendChild(currenciesIntr);
-    currenciesBox.appendChild(currenciesLocal);
+    currenciesBox.append(currenciesIntr, currenciesLocal);
 
     currenciesSection.appendChild(currenciesBox);
 
-    widgetsItem.appendChild(currenciesSection);
+    widgetsItem.append(weatherDetailsSection, currenciesSection);
     widgetsContainer.appendChild(widgetsItem);
   });
 };
