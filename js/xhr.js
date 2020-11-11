@@ -53,7 +53,7 @@ const testArr_0 = [
 localStorageModule.set("appData", testArr_0);
 
 localStorageModule.set("renderData", localStorageModule.get("appData")[0]);
-localStorageModule.get('renderData')
+localStorageModule.get("renderData");
 //request Xhr function - take callback - url
 const requestXhr = (url, callback, errorHandle) => {
 	const xhr = new XMLHttpRequest();
@@ -61,6 +61,7 @@ const requestXhr = (url, callback, errorHandle) => {
 	xhr.onreadystatechange = () => {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {
+				console.log(JSON.parse(xhr.responseText));
 				callback(JSON.parse(xhr.responseText));
 				return;
 			}
@@ -128,6 +129,7 @@ const setWeatherDataToLocalStorage = (req, id) => {
 		id,
 		dayName: days[new Date(req.location.localtime).getDay()],
 		todayTemp: req.current.temp_c,
+		weatherIcon: req.current.condition.icon.split("//")[1],
 		weather4Days: [
 			{
 				dayName: days[new Date(req.forecast.forecastday[1].date).getDay()],
