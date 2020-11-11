@@ -1,3 +1,6 @@
+const addNewWidgetBtn = document.getElementById("add-new");
+const closeSearchBoxBtn = document.getElementsByClassName("fa-times")[0];
+const searchInputBoxModal = document.getElementsByClassName("search-input")[0];
 const widgetsContainer = document.getElementById("widgets");
 const allWidgetsItem = document.querySelectorAll(".container .widgets-item");
 
@@ -5,6 +8,23 @@ allWidgetsItem.forEach((item) => {
   // item.remove();
 });
 
+addNewWidgetBtn.addEventListener("click", (e) => {
+  window.scrollTo(0, 0);
+  searchInputBoxModal.classList.add("block");
+  searchInputBoxModal.classList.add("fade-in");
+  searchInputBoxModal.classList.remove("fade-out");
+  setTimeout(() => {
+    searchInputBoxModal.classList.remove("fade-in");
+  }, 350);
+});
+
+closeSearchBoxBtn.addEventListener("click", (e) => {
+  searchInputBoxModal.classList.add("fade-out");
+  setTimeout(() => {
+    searchInputBoxModal.classList.remove("block");
+    searchInputBoxModal.classList.remove("fade-out");
+  }, 350);
+});
 
 const forTestArray = [
   {
@@ -55,7 +75,9 @@ const renderWidgets = (array) => {
   return array.forEach((item) => {
     const widgetsItem = document.createElement("div");
     widgetsItem.setAttribute("class", "widgets-item");
-    widgetsItem.style.borderTop = `35px solid ${color[Math.floor(Math.random()*4)]}`;
+    widgetsItem.style.borderTop = `35px solid ${
+      color[Math.floor(Math.random() * 4)]
+    }`;
 
     const weatherDetailsSection = document.createElement("div");
     weatherDetailsSection.setAttribute("class", "weather-details-section");
