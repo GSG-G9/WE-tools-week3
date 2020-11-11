@@ -10,101 +10,28 @@ cityInput.addEventListener("input", (e) => {
   // if(e.target.value === "") {
   //   resultContainer.childNodes[0].remove();
   // }
-  renderSearchResult(searchCity(e.target.value, forTestArray));
+  renderSearchResult(
+    searchCity(e.target.value, localStorageModule.get("appData"))
+  );
 });
 
 addNewWidgetBtn.addEventListener("click", (e) => {
-	window.scrollTo(0, 0);
-	searchInputBoxModal.classList.add("block");
-	searchInputBoxModal.classList.add("fade-in");
-	searchInputBoxModal.classList.remove("fade-out");
-	setTimeout(() => {
-		searchInputBoxModal.classList.remove("fade-in");
-	}, 350);
+  window.scrollTo(0, 0);
+  searchInputBoxModal.classList.add("block");
+  searchInputBoxModal.classList.add("fade-in");
+  searchInputBoxModal.classList.remove("fade-out");
+  setTimeout(() => {
+    searchInputBoxModal.classList.remove("fade-in");
+  }, 350);
 });
 
 closeSearchBoxBtn.addEventListener("click", (e) => {
-	searchInputBoxModal.classList.add("fade-out");
-	setTimeout(() => {
-		searchInputBoxModal.classList.remove("block");
-		searchInputBoxModal.classList.remove("fade-out");
-	}, 350);
+  searchInputBoxModal.classList.add("fade-out");
+  setTimeout(() => {
+    searchInputBoxModal.classList.remove("block");
+    searchInputBoxModal.classList.remove("fade-out");
+  }, 350);
 });
-
-const forTestArray = [
-  {
-    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
-    dayName: "THR",
-    todayTemp: 25,
-    country: "Gaza",
-    weather4Days: [
-      { dayName: "FR", todayTemp: 20 },
-      { dayName: "SAT", todayTemp: 15 },
-      { dayName: "SUN", todayTemp: 18 },
-      { dayName: "MOn", todayTemp: 17 },
-    ],
-  },
-  {
-    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
-    dayName: "THR",
-    todayTemp: 25,
-    country: "Cairo",
-    weather4Days: [
-      { dayName: "FR", todayTemp: 20 },
-      { dayName: "SAT", todayTemp: 15 },
-      { dayName: "SUN", todayTemp: 18 },
-      { dayName: "MOn", todayTemp: 17 },
-    ],
-  },
-  {
-    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
-    dayName: "THR",
-    todayTemp: 25,
-    country: "Londom",
-    weather4Days: [
-      { dayName: "FR", todayTemp: 20 },
-      { dayName: "SAT", todayTemp: 15 },
-      { dayName: "SUN", todayTemp: 18 },
-      { dayName: "MOn", todayTemp: 17 },
-    ],
-  },
-  {
-    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
-    dayName: "THR",
-    todayTemp: 25,
-    country: "Makka",
-    weather4Days: [
-      { dayName: "FR", todayTemp: 20 },
-      { dayName: "SAT", todayTemp: 15 },
-      { dayName: "SUN", todayTemp: 18 },
-      { dayName: "MOn", todayTemp: 17 },
-    ],
-  },
-  {
-    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
-    dayName: "THR",
-    todayTemp: 25,
-    country: "Khanyounis",
-    weather4Days: [
-      { dayName: "FR", todayTemp: 20 },
-      { dayName: "SAT", todayTemp: 15 },
-      { dayName: "SUN", todayTemp: 18 },
-      { dayName: "MOn", todayTemp: 17 },
-    ],
-  },
-  {
-    id: Math.floor(Math.random() * 1000000) + new Date().getTime().toString(16),
-    dayName: "THR",
-    todayTemp: 25,
-    country: "Rafah",
-    weather4Days: [
-      { dayName: "FR", todayTemp: 20 },
-      { dayName: "SAT", todayTemp: 15 },
-      { dayName: "SUN", todayTemp: 18 },
-      { dayName: "MOn", todayTemp: 17 },
-    ],
-  },
-];
 
 // Border Top Color
 const color = ["#e5e522", "#e525d5", "#f50555", "#27ff9c", "#555", "#ec9900"];
@@ -116,10 +43,30 @@ const renderSearchResult = (arrayOfResult) => {
   if (typeof arrayOfResult === "object") {
     return arrayOfResult.forEach((item) => {
       const resultItem = createDOMElmt("div", "class", "search-result-item");
-      resultItem.textContent = item.country;
+      resultItem.textContent = item.cityName;
       resultItem.setAttribute("value", item.id);
       resultItem.addEventListener("click", (e) => {
-        console.log(e.target.getAttribute("value"));
+        const resultSearchElement = localStorageModule
+          .get("appData")
+          .filter((item) => item.id === e.target.getAttribute("value"));
+        const arr = localStorageModule.get("renderData");
+        console.log(
+          arr.filter((item) => item.cityName === resultSearchElement[0].cityName)
+        );
+        console.log(resultSearchElement[0]);
+        if (
+          arr.filter((item) => item.cityName === resultSearchElement[0].cityName).length !==
+          0
+        ) {
+          location.reload();
+          return;
+        } else {
+          arr.push(resultSearchElement[0]);
+          console.log(arr);
+          localStorageModule.set("renderData", arr);
+          console.log(resultSearchElement);
+          location.reload();
+        }
       });
       resultContainer.appendChild(resultItem);
     });
@@ -206,6 +153,15 @@ const renderWidgets = (array) => {
       "class",
       "weather-details--today--box"
     );
+
+    const weatherDetailsTodayBoxCityName = createDOMElmt(
+      "div",
+      "class",
+      "weather-details--today--box__cityname"
+    );
+
+    weatherDetailsTodayBoxCityName.textContent = item.cityName;
+    weatherDetailsTodayBox.appendChild(weatherDetailsTodayBoxCityName);
 
     // Day Name Div
     const weatherDetailsTodaysName = createDOMElmt(
@@ -305,7 +261,7 @@ const renderWidgets = (array) => {
       "class",
       "currencies-local--name"
     );
-    currenciesLocalName.textContent = "ILS";
+    currenciesLocalName.textContent = item.currencySympole;
     const currenciesLocalValue = createDOMElmt(
       "div",
       "class",
@@ -333,6 +289,8 @@ const renderWidgets = (array) => {
   });
 };
 
+console.log(localStorageModule.get("appData"));
+
 document.addEventListener("DOMContentLoaded", (e) => {
-	renderWidgets(localStorageModule.get("appData"));
+  renderWidgets(localStorageModule.get("renderData"));
 });

@@ -62,6 +62,12 @@ body {
   width: 45%;
 }
 
+.weather-details--today--box__cityname {
+  font-size: 26px;
+  font-weight: bold;
+  padding-bottom: 1rem ;
+}
+
 .weather-details--allDays {
   width: 100%;
   display: flex;
