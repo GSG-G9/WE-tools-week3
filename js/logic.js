@@ -12,4 +12,11 @@ const searchCity = (cityName, AppData) => {
 	return foundData[0].country;
 };
 
-module.exports = { searchCity };
+function editObject(newObj, objectArrays) {
+    const originalObject = objectArrays.filter((obj) => obj.id === newObj.id)[0];
+	Object.keys(newObj).forEach((key) => (originalObject[key] = newObj[key]));
+	console.log('HRRRRRRR', originalObject);
+    return [originalObject, objectArrays.filter((obj) => obj.id !== newObj.id)];
+}
+
+module.exports = { searchCity, editObject };
