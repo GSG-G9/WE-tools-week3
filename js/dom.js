@@ -38,8 +38,9 @@ const color = ["#e5e522", "#e525d5", "#f50555", "#27ff9c", "#555", "#ec9900"];
 
 // Render Search Result Functionality
 const renderSearchResult = (arrayOfResult) => {
-  // resultContainer.childNodes.forEach(item => item.remove());
-  resultContainer.innerHTML = "";
+  while (resultContainer.hasChildNodes()) {
+    resultContainer.removeChild(resultContainer.lastChild);
+  }
   if (typeof arrayOfResult === "object") {
     return arrayOfResult.forEach((item) => {
       const resultItem = createDOMElmt("div", "class", "search-result-item");
@@ -51,12 +52,15 @@ const renderSearchResult = (arrayOfResult) => {
           .filter((item) => item.id === e.target.getAttribute("value"));
         const arr = localStorageModule.get("renderData");
         console.log(
-          arr.filter((item) => item.cityName === resultSearchElement[0].cityName)
+          arr.filter(
+            (item) => item.cityName === resultSearchElement[0].cityName
+          )
         );
         console.log(resultSearchElement[0]);
         if (
-          arr.filter((item) => item.cityName === resultSearchElement[0].cityName).length !==
-          0
+          arr.filter(
+            (item) => item.cityName === resultSearchElement[0].cityName
+          ).length !== 0
         ) {
           location.reload();
           return;
@@ -107,7 +111,7 @@ const createAllDayElement = (item, parentElement) => {
       "weather-details--allDays__icon"
     );
     const icon = createDOMElmt("img", "class", "weather-iconpng");
-    icon.setAttribute("src", "http://" + item.weatherIcon)
+    icon.setAttribute("src", "http://" + item.weatherIcon);
     weatherDetailsAllDaysIcon.appendChild(icon);
 
     const weatherDetailsAlldayTemp = createDOMElmt(
