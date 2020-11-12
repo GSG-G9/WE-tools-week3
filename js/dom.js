@@ -112,9 +112,7 @@ const createAllDayElement = (item, parentElement) => {
 
     weatherDetailsAlldayTemp.textContent = element.todayTemp + " C";
 
-    weatherDetailsDay.appendChild(weatherDetailsAllDaysName);
-    weatherDetailsDay.appendChild(weatherDetailsAllDaysIcon);
-    weatherDetailsDay.appendChild(weatherDetailsAlldayTemp);
+    weatherDetailsDay.append(weatherDetailsAllDaysName, weatherDetailsAllDaysIcon, weatherDetailsAlldayTemp);
     parentElement.appendChild(weatherDetailsDay);
   });
 };
