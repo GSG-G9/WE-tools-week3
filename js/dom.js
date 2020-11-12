@@ -7,9 +7,6 @@ const cityInput = document.getElementById("city-input");
 const resultContainer = document.getElementById("result");
 
 cityInput.addEventListener("input", (e) => {
-  // if(e.target.value === "") {
-  //   resultContainer.childNodes[0].remove();
-  // }
   renderSearchResult(
     searchCity(e.target.value, localStorageModule.get("appData"))
   );
@@ -51,12 +48,7 @@ const renderSearchResult = (arrayOfResult) => {
           .get("appData")
           .filter((item) => item.id === e.target.getAttribute("value"));
         const arr = localStorageModule.get("renderData");
-        console.log(
-          arr.filter(
-            (item) => item.cityName === resultSearchElement[0].cityName
-          )
-        );
-        console.log(resultSearchElement[0]);
+     
         if (
           arr.filter(
             (item) => item.cityName === resultSearchElement[0].cityName
@@ -66,9 +58,7 @@ const renderSearchResult = (arrayOfResult) => {
           return;
         } else {
           arr.push(resultSearchElement[0]);
-          console.log(arr);
           localStorageModule.set("renderData", arr);
-          console.log(resultSearchElement);
           location.reload();
         }
       });
@@ -294,8 +284,6 @@ const renderWidgets = (array) => {
     widgetsContainer.appendChild(widgetsItem);
   });
 };
-
-console.log(localStorageModule.get("appData"));
 
 document.addEventListener("DOMContentLoaded", (e) => {
   renderWidgets(localStorageModule.get("renderData"));
